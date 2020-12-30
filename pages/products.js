@@ -1,6 +1,7 @@
-import { Text, SimpleGrid } from "@chakra-ui/react";
+import { Text, SimpleGrid, Link } from "@chakra-ui/react";
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
+import NextLink from 'next/link';
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
@@ -19,7 +20,13 @@ const Products = () => {
             >
                 {
                     data && data?.products.map(product => {
-                        return <ProductCard key={product._id} product={product} />
+                        return (
+                            <NextLink key={product._id} href={`/product/${product._id}`} passHref>
+                                <Link>
+                                    <ProductCard product={product} _hover={{ cursor: 'pointer'}}/>
+                                </Link>
+                            </NextLink>
+                        )
                     })
                 }
             </SimpleGrid>
