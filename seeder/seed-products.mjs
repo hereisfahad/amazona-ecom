@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import Product from '../models/Product'
-import products from '../data/products'
+import Product from '../models/Product.mjs'
+import products from '../data/products.mjs'
 
 const seedProducts = async () => {
   try {
@@ -10,6 +10,7 @@ const seedProducts = async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
+        useCreateIndex: true
       }
     )
     console.log('removing products...')

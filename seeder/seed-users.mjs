@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
-import User from '../models/User'
-import users from '../data/users'
+import User from '../models/User.mjs'
+import users from '../data/users.mjs'
 
 const seedUsers = async () => {
   try {
@@ -10,6 +10,7 @@ const seedUsers = async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
+        useCreateIndex: true
       }
     )
     console.log('removing users...')
