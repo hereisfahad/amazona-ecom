@@ -24,9 +24,10 @@ const DashboardShell = ({ children }) => {
                 >
                     <Flex align="center">
                         <NextLink href="/" passHref>
-                            <Link>
-                                Amazona Ecom
-                            </Link>
+                            <Link mr={4}>Amazona Ecom</Link>
+                        </NextLink>
+                        <NextLink href="/products" passHref>
+                            <Link mr={4}>Products</Link>
                         </NextLink>
                     </Flex>
                     <Flex justifyContent="center" alignItems="center">
