@@ -31,14 +31,14 @@ const DashboardShell = ({ children }) => {
                         </NextLink>
                     </Flex>
                     <Flex justifyContent="center" alignItems="center">
-                        <NextLink href="/login" passHref>
+                        <NextLink href="/cart" passHref>
                             <Link mr={4}>
                                 Cart
                             </Link>
                         </NextLink>
-                        <NextLink href="/login" passHref>
+                        <NextLink href="/signin" passHref>
                             <Link>
-                                SignIn
+                                Sign In
                             </Link>
                         </NextLink>
                     </Flex>
