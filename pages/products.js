@@ -15,7 +15,7 @@ const Products = () => {
                 List of products
             </Text>
             <SimpleGrid
-                columns={[2, null, 3]}
+                columns={[1, 2, 3]}
                 spacing={10} mt={2}
             >
                 {
