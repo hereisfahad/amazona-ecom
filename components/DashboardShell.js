@@ -1,9 +1,24 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { Box, Flex, Link } from '@chakra-ui/react';
+import { useRouter } from 'next/router'
+import {
+    Box,
+    Flex,
+    Link,
+    Button
+} from '@chakra-ui/react';
 import Footer from './Footer';
 
 const DashboardShell = ({ children }) => {
+    const router = useRouter();
+    let user = localStorage.getItem('user');
+    user = JSON.parse(user)
+
+    const signOut = () => {
+        localStorage.removeItem('user')
+        router.push('/signin')
+    }
+
     return (
         <Box>
             <Flex
@@ -36,11 +51,17 @@ const DashboardShell = ({ children }) => {
                                 Cart
                             </Link>
                         </NextLink>
-                        <NextLink href="/signin" passHref>
-                            <Link>
-                                Sign In
-                            </Link>
-                        </NextLink>
+                        {
+                            user ? (
+                                <Button onClick={() => signOut()}>Sign Out</Button>
+                            ) : (
+                                    <NextLink href="/signin" passHref>
+                                        <Link>
+                                            Sign In
+                                    </Link>
+                                    </NextLink>
+                                )
+                        }
                     </Flex>
                 </Flex>
             </Flex>
