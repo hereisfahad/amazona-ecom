@@ -11,9 +11,11 @@ import Footer from './Footer';
 
 const DashboardShell = ({ children }) => {
     const router = useRouter();
-    let user = localStorage.getItem('user');
-    user = JSON.parse(user)
-
+    let user = undefined
+    if(process.browser){
+        user = localStorage.getItem('user');
+        user = JSON.parse(user)
+    }
     const signOut = () => {
         localStorage.removeItem('user')
         router.push('/signin')

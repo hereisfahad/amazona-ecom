@@ -23,8 +23,10 @@ import DashboardShell from '@/components/DashboardShell';
 
 const SignIn = () => {
     const router = useRouter()
-    let user = localStorage.getItem('user');
-    if(user) router.push('/')
+    if(process.browser){
+        let user = localStorage.getItem('user');
+        if(user) router.push('/')
+    }
     const { register, handleSubmit, errors } = useForm();
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
