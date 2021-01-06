@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router'
 import {
     Text,
     FormControl,
@@ -11,7 +12,8 @@ import {
     Button,
     Stack,
     Flex,
-    Link
+    Link,
+    useToast
 } from "@chakra-ui/react";
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { useForm } from "react-hook-form";
@@ -20,13 +22,41 @@ import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
 
 const Register = () => {
+    const router = useRouter()
+    if(process.browser){
+        let user = localStorage.getItem('user');
+        if(user) router.push('/')
+    }
+
     const { register, handleSubmit, errors } = useForm();
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
+    const toast = useToast();
 
-    const onRegister = data => {
-        // setLoading(true);
-        console.log(data);
+    const onRegister = async userInfo => {
+        setLoading(true);
+        const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userInfo),
+        });
+        const data = await response.json()
+        if (!data?.user) {
+            toast({
+                title: "Error",
+                description: data.message,
+                status: "error",
+                duration: 4000,
+                isClosable: true,
+            })
+        } else {
+            localStorage.setItem('user', JSON.stringify(data?.user));
+            router.replace('/')
+        }
+        setLoading(false);
     }
 
     return (
@@ -84,12 +114,12 @@ const Register = () => {
                         {errors.email && errors.email.message}
                     </FormErrorMessage>
                 </FormControl>
-                <FormControl isInvalid={errors.pass && errors.pass.message}>
+                <FormControl isInvalid={errors.password && errors.password.message}>
                     <FormLabel htmlFor="password">Password</FormLabel>
                     <InputGroup size="md">
                         <Input
                             aria-label="Password"
-                            name="pass"
+                            name="password"
                             id="password"
                             type={showPassword ? "text" : "password"}
                             ref={register({
@@ -112,7 +142,7 @@ const Register = () => {
                         </InputRightAddon>
                     </InputGroup>
                     <FormErrorMessage>
-                        {errors.pass && errors.pass.message}
+                        {errors.password && errors.password.message}
                     </FormErrorMessage>
                 </FormControl>
                 <Button
@@ -130,7 +160,7 @@ const Register = () => {
                     }}
                 >
                     Register
-            </Button>
+                </Button>
                 <Flex
                     align={['flex-start', 'center']}
                     justifyContent="space-between"
