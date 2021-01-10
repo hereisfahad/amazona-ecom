@@ -68,11 +68,13 @@ const DashboardShell = ({ children }) => {
                             <Link
                                 mr={4}
                                 fontWeight={router.pathname === "/cart" ? 'semibold' : 'normal'}
-                            >
-                                <AiOutlineShoppingCart/>
-                                {
-                                    cartItemsCount > 0 && <Badge ml="1" colorScheme="green">{Number(cartItemsCount)}</Badge>
-                                }
+                            >   
+                                <Flex>    
+                                    <AiOutlineShoppingCart/>
+                                    {
+                                        cartItemsCount > 0 && <Badge ml="1" colorScheme="green">{Number(cartItemsCount)}</Badge>
+                                    }
+                                </Flex>
                             </Link>
                         </NextLink>
                         {
