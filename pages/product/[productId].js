@@ -25,10 +25,10 @@ import Rating from '@/components/Rating';
 const Product = () => {
     const [quantity, setQuantity] = useState(1);
     const router = useRouter()
+    const { addItem } = useCart()
     const { data } = useSWR(`/api/products?_id=${router.query.productId}`, fetcher);
     if (!data) return 'loading...'
     const { image, name, rating, numReviews, price, description, countInStock } = data?.products[0]
-    const { addItem } = useCart()
 
     const handleAddToCart = () => {
         addItem(data?.products[0], Number(quantity))
