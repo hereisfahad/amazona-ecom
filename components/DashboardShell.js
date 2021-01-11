@@ -9,6 +9,7 @@ import {
     Badge
 } from '@chakra-ui/react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { RiAmazonLine } from 'react-icons/ri';
 
 import { useCart } from '@/providers/cart';
 import Footer from './Footer';
@@ -51,7 +52,7 @@ const DashboardShell = ({ children }) => {
                                 mr={4}
                                 fontWeight={router.pathname === "/" ? 'semibold' : 'normal'}
                             >
-                                Amazona Ecom
+                                <RiAmazonLine />
                             </Link>
                         </NextLink>
                         <NextLink href="/products" passHref>
@@ -68,9 +69,9 @@ const DashboardShell = ({ children }) => {
                             <Link
                                 mr={4}
                                 fontWeight={router.pathname === "/cart" ? 'semibold' : 'normal'}
-                            >   
-                                <Flex>    
-                                    <AiOutlineShoppingCart/>
+                            >
+                                <Flex>
+                                    <AiOutlineShoppingCart />
                                     {
                                         cartItemsCount > 0 && <Badge ml="1" colorScheme="green">{Number(cartItemsCount)}</Badge>
                                     }
