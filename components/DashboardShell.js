@@ -1,9 +1,26 @@
 import React from 'react';
 import NextLink from 'next/link';
-import { Box, Flex, Link } from '@chakra-ui/react';
+import { useRouter } from 'next/router'
+import {
+    Box,
+    Flex,
+    Link,
+    Button
+} from '@chakra-ui/react';
 import Footer from './Footer';
 
 const DashboardShell = ({ children }) => {
+    const router = useRouter();
+    let user = undefined
+    if (process.browser) {
+        user = localStorage.getItem('user');
+        user = JSON.parse(user)
+    }
+    const signOut = () => {
+        localStorage.removeItem('user')
+        router.push('/signin')
+    }
+
     return (
         <Box>
             <Flex
@@ -24,23 +41,44 @@ const DashboardShell = ({ children }) => {
                 >
                     <Flex align="center">
                         <NextLink href="/" passHref>
-                            <Link mr={4}>Amazona Ecom</Link>
+                            <Link
+                                mr={4}
+                                fontWeight={router.pathname === "/" ? 'semibold' : 'normal'}
+                            >
+                                Amazona Ecom
+                            </Link>
                         </NextLink>
                         <NextLink href="/products" passHref>
-                            <Link mr={4}>Products</Link>
+                            <Link
+                                mr={4}
+                                fontWeight={router.pathname === "/products" ? 'semibold' : 'normal'}
+                            >
+                                Products
+                            </Link>
                         </NextLink>
                     </Flex>
                     <Flex justifyContent="center" alignItems="center">
-                        <NextLink href="/login" passHref>
-                            <Link mr={4}>
+                        <NextLink href="/cart" passHref>
+                            <Link
+                                mr={4}
+                                fontWeight={router.pathname === "/cart" ? 'semibold' : 'normal'}
+                            >
                                 Cart
                             </Link>
                         </NextLink>
-                        <NextLink href="/login" passHref>
-                            <Link>
-                                SignIn
-                            </Link>
-                        </NextLink>
+                        {
+                            user ? (
+                                <Button onClick={() => signOut()}>Sign Out</Button>
+                            ) : (
+                                    <NextLink href="/signin" passHref>
+                                        <Link
+                                            fontWeight={router.pathname === "/signin" ? 'semibold' : 'normal'}
+                                        >
+                                            Sign In
+                                    </Link>
+                                    </NextLink>
+                                )
+                        }
                     </Flex>
                 </Flex>
             </Flex>
@@ -48,7 +86,7 @@ const DashboardShell = ({ children }) => {
                 <Flex margin="0 auto" mb={16} direction="column" maxW="1250px" px={[0, 8, 8]}>
                     {children}
                 </Flex>
-                <Footer/>
+                <Footer />
             </Flex>
         </Box>
     );
