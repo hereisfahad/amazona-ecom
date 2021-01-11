@@ -1,5 +1,5 @@
 import React from 'react';
-import { 
+import {
   Box,
   Img,
   NumberInput,
@@ -12,10 +12,12 @@ import {
 import { FaTrash } from "react-icons/fa"
 
 import { Table, Tr, Th, Td } from './Table';
+import { useCart } from '@/providers/cart';
 
-const ProductTable = ({ products, ...rest }) => {
+const ProductTable = (props) => {
+  const { cartItems, addItem, clearItemFromCart } = useCart()
   return (
-    <Box overflowX="scroll" {...rest}>
+    <Box overflowX="scroll" {...props}>
       <Table w="full">
         <thead>
           <Tr>
@@ -27,24 +29,32 @@ const ProductTable = ({ products, ...rest }) => {
           </Tr>
         </thead>
         <tbody>
-          {products.map((product, index) => (
+          {cartItems.map((item, index) => (
             <Box as="tr" key={index}>
               <Td>
-              <Img src="https://bit.ly/sage-adebayo" alt="Segun Adebayo" maxWidth="4rem" width="100%" rounded="md" borderBottomRadius="none" />
+                <Img src={item.image} alt="Segun Adebayo" maxWidth="4rem" width="100%" rounded="md" borderBottomRadius="none" />
               </Td>
-              <Td>Nike Slim Shirt</Td>
+              <Td>{item.name}</Td>
               <Td>
-                <NumberInput size="sm" w="65px" step={1} defaultValue={1} min={1} max={5}>
+                <NumberInput
+                  size="sm"
+                  w="65px"
+                  step={1}
+                  defaultValue={item.quantity}
+                  min={1}
+                  max={item.countInStock}
+                  onChange={(value) => addItem(item, Number(value))}
+                >
                   <NumberInputField />
                   <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
                   </NumberInputStepper>
                 </NumberInput>
               </Td>
-              <Td>$120</Td>
-              <Td>
-              <IconButton aria-label="delete product" icon={<FaTrash />} />
+              <Td>{item.price}</Td>
+              <Td onClick={() => clearItemFromCart(item)}>
+                <IconButton aria-label="delete product" icon={<FaTrash />} />
               </Td>
             </Box>
           ))}

@@ -5,11 +5,17 @@ import {
     Box,
     Flex,
     Link,
-    Button
+    Button,
+    Badge
 } from '@chakra-ui/react';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { RiAmazonLine } from 'react-icons/ri';
+
+import { useCart } from '@/providers/cart';
 import Footer from './Footer';
 
 const DashboardShell = ({ children }) => {
+    const { cartItemsCount } = useCart()
     const router = useRouter();
     let user = undefined
     if (process.browser) {
@@ -18,6 +24,7 @@ const DashboardShell = ({ children }) => {
     }
     const signOut = () => {
         localStorage.removeItem('user')
+        localStorage.removeItem('cartItems')
         router.push('/signin')
     }
 
@@ -33,7 +40,7 @@ const DashboardShell = ({ children }) => {
                     justifyContent="space-between"
                     pt={4}
                     pb={4}
-                    maxW="1250px"
+                    maxW="100vw"
                     margin="0 auto"
                     w="full"
                     px={8}
@@ -45,7 +52,7 @@ const DashboardShell = ({ children }) => {
                                 mr={4}
                                 fontWeight={router.pathname === "/" ? 'semibold' : 'normal'}
                             >
-                                Amazona Ecom
+                                <RiAmazonLine />
                             </Link>
                         </NextLink>
                         <NextLink href="/products" passHref>
@@ -63,7 +70,12 @@ const DashboardShell = ({ children }) => {
                                 mr={4}
                                 fontWeight={router.pathname === "/cart" ? 'semibold' : 'normal'}
                             >
-                                Cart
+                                <Flex>
+                                    <AiOutlineShoppingCart />
+                                    {
+                                        cartItemsCount > 0 && <Badge ml="1" colorScheme="green">{Number(cartItemsCount)}</Badge>
+                                    }
+                                </Flex>
                             </Link>
                         </NextLink>
                         {
@@ -83,7 +95,7 @@ const DashboardShell = ({ children }) => {
                 </Flex>
             </Flex>
             <Flex pos="relative" minHeight="80vh">
-                <Flex margin="0 auto" mb={16} direction="column" maxW="1250px" px={[0, 8, 8]}>
+                <Flex margin="0 auto" mb={16} direction="column" maxW="1250px" px={[4, 8, 8]}>
                     {children}
                 </Flex>
                 <Footer />
