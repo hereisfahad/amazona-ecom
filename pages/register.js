@@ -98,7 +98,6 @@ const Register = () => {
                 <FormControl isInvalid={errors.email && errors.email.message} w="full">
                     <FormLabel htmlFor="email">Email Address</FormLabel>
                     <Input
-                        autoFocus
                         aria-label="Email Address"
                         id="email"
                         name="email"
