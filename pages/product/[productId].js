@@ -4,6 +4,7 @@ import {
     SimpleGrid,
     Img,
     Flex,
+    Spinner,
     List,
     ListItem,
     Button,
@@ -27,7 +28,19 @@ const Product = () => {
     const router = useRouter()
     const { addItem } = useCart()
     const { data } = useSWR(`/api/products?_id=${router.query.productId}`, fetcher);
-    if (!data) return 'loading...'
+
+    if(!data) return (
+        <Flex minHeight="100vh" justifyContent="center" alignItems="center">
+            <Spinner
+                thickness="4px"
+                speed=".65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+            />
+        </Flex>
+    )
+
     const { image, name, rating, numReviews, price, description, countInStock } = data?.products[0]
 
     const handleAddToCart = () => {
