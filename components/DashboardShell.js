@@ -15,7 +15,7 @@ import { useCart } from '@/providers/cart';
 import Footer from './Footer';
 
 const DashboardShell = ({ children }) => {
-    const { cartItemsCount } = useCart()
+    const { cartItems, setCartItems } = useCart()
     const router = useRouter();
     let user = undefined
     if (process.browser) {
@@ -23,8 +23,11 @@ const DashboardShell = ({ children }) => {
         user = JSON.parse(user)
     }
     const signOut = () => {
+        setCartItems([])
         localStorage.removeItem('user')
         localStorage.removeItem('cartItems')
+        localStorage.removeItem('shippingAddress')
+        localStorage.removeItem('paymentMethod')
         router.push('/signin')
     }
 
@@ -73,7 +76,7 @@ const DashboardShell = ({ children }) => {
                                 <Flex>
                                     <AiOutlineShoppingCart />
                                     {
-                                        cartItemsCount > 0 && <Badge ml="1" colorScheme="green">{Number(cartItemsCount)}</Badge>
+                                        cartItems.length > 0 && <Badge ml="1" colorScheme="green">{Number(cartItems.length)}</Badge>
                                     }
                                 </Flex>
                             </Link>
@@ -81,13 +84,14 @@ const DashboardShell = ({ children }) => {
                         {
                             user ? (
                                 <Button onClick={() => signOut()}>Sign Out</Button>
-                            ) : (
+                            ) :
+                                (
                                     <NextLink href="/signin" passHref>
                                         <Link
                                             fontWeight={router.pathname === "/signin" ? 'semibold' : 'normal'}
                                         >
                                             Sign In
-                                    </Link>
+                                </Link>
                                     </NextLink>
                                 )
                         }

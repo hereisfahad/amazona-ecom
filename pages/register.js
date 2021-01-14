@@ -23,6 +23,7 @@ import DashboardShell from '@/components/DashboardShell';
 
 const Register = () => {
     const router = useRouter()
+    const { redirect } = router.query
     if(process.browser){
         let user = localStorage.getItem('user');
         if(user) router.push('/')
@@ -170,7 +171,7 @@ const Register = () => {
                     direction={['column', 'row']}
                 >
 
-                    <NextLink href="/signin" passHref>
+                    <NextLink href={`/signin${redirect? `?redirect=${redirect}`: ''}`} passHref>
                         <Link
                             color='gray.900'
                             fontWeight="bold"
