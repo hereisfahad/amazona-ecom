@@ -41,8 +41,10 @@ const Product = () => {
                 Product Detail
             </Text>
             <SimpleGrid
-                columns={[2, null, 3]}
-                spacing={10} mt={2}>
+                columns={[1, 2, 3]}
+                spacing={10}
+                mt={2}
+            >
                 <Img src={image} alt="product image" />
                 <Flex direction="column">
                     <Text fontWeight="bold" mb={4} fontSize="lg">{name}</Text>
