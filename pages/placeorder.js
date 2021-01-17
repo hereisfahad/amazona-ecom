@@ -16,8 +16,7 @@ import { Table, Tr, Th, Td } from '@/components/Table';
 import { useOrder } from '@/providers/order';
 import { useCart } from '@/providers/cart';
 
-const ShippingCost = 10.00
-const TaxCost = 11.70
+const TaxRate = 0.15
 
 const PlaceOrder = () => {
     const router = useRouter()
@@ -35,6 +34,10 @@ const PlaceOrder = () => {
     const handleSubmit = () => { }
 
     const { fullName, address, city, country, postalCode } = shippingAddress
+
+    const taxCost = TaxRate * cartTotal
+    const shippingCost = cartTotal > 100 ? 0 : 10
+    const orderTotal = cartTotal + shippingCost + taxCost
 
     return (
         <DashboardShell>
@@ -142,13 +145,13 @@ const PlaceOrder = () => {
                                 <Text>Items: </Text> <Text fontSize="lg">${cartTotal.toFixed(2)}</Text>
                             </Flex>
                             <Flex justifyContent="space-between">
-                                <Text>Shipping: </Text> <Text fontSize="lg">${ShippingCost.toFixed(2)}</Text>
+                                <Text>Shipping: </Text> <Text fontSize="lg">${shippingCost.toFixed(2)}</Text>
                             </Flex>
                             <Flex justifyContent="space-between">
-                                <Text>Tax: </Text> <Text fontSize="lg">${TaxCost.toFixed(2)}</Text>
+                                <Text>Tax: </Text> <Text fontSize="lg">${taxCost.toFixed(2)}</Text>
                             </Flex>
                             <Flex justifyContent="space-between" fontWeight="semibold">
-                                <Text>Order Total: </Text> <Text fontSize="lg">${(cartTotal + ShippingCost + TaxCost).toFixed(2)}</Text>
+                                <Text>Order Total: </Text> <Text fontSize="lg">${orderTotal.toFixed(2)}</Text>
                             </Flex>
                         </ListItem>
                     </List>
