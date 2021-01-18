@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from 'next/router'
 import NextLink from 'next/link';
+import jwt from 'jsonwebtoken'
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
@@ -21,9 +22,14 @@ const Cart = () => {
 
     const handleSubmit = () => {
         if (process.browser) {
-            let user = localStorage.getItem('user');
-            if (user) router.push('/shipping')
-            else router.push('/signin?redirect=shipping')
+            let user = JSON.parse(localStorage.getItem('user'));
+            jwt.verify(user?.token, process.env.NEXT_PUBLIC_JWT_SECRET, (err, _) => {
+                if (err) {
+                    localStorage.removeItem('user')
+                    router.push('/signin?redirect=shipping')
+                }
+                else router.push('/shipping')
+            })
         }
     }
 

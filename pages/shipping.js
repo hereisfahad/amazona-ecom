@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useOrder } from '@/providers/order'
+import jwt from 'jsonwebtoken'
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
@@ -19,8 +20,14 @@ const Shipping = () => {
     const router = useRouter()
     const { shippingAddress, setShippingAddress } = useOrder()
     if (process.browser) {
-        let user = localStorage.getItem('user');
-        if (!user) router.push('/signin?redirect=shipping')
+        let user = JSON.parse(localStorage.getItem('user'));
+        jwt.verify(user?.token, process.env.NEXT_PUBLIC_JWT_SECRET, (err, decoded) => {
+            if (err) {
+                console.log(err)
+                localStorage.removeItem('user')
+                router.push('/signin?redirect=shipping')
+            }
+        })
     }
     const { register, handleSubmit, errors } = useForm();
     const [loading, setLoading] = useState(false);

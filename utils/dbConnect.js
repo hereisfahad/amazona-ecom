@@ -1,6 +1,8 @@
 /* This is a database connection function*/
 import mongoose from 'mongoose'
 import '@/models/Product'
+import '@/models/User'
+import '@/models/Order'
 
 const connection = {} /* creating connection object*/
 

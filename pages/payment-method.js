@@ -11,6 +11,7 @@ import {
 import _keys from 'lodash/keys';
 import { useForm } from "react-hook-form";
 import { useOrder } from '@/providers/order';
+import jwt from 'jsonwebtoken'
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
@@ -20,8 +21,13 @@ const Payment = () => {
     const { shippingAddress, paymentMethod, setPaymentMethod } = useOrder()
     const [tempPaymentMethod, setTempPaymentMethod] = useState(paymentMethod)
     if (process.browser) {
-        let user = localStorage.getItem('user');
-        if (!user) router.push('/signin?redirect=shipping')
+        let user = JSON.parse(localStorage.getItem('user'));
+        jwt.verify(user?.token, process.env.NEXT_PUBLIC_JWT_SECRET, (err, decoded) => {
+            if (err) {
+                localStorage.removeItem('user')
+                router.push('/signin?redirect=payment-method')
+            }
+        })
     }
     if (_keys(shippingAddress).length === 0) router.push('/shipping')
 
