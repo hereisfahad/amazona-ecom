@@ -27,7 +27,7 @@ const OrderSchema = new mongoose.Schema(
         shippingPrice: { type: Number, required: true },
         taxPrice: { type: Number, required: true },
         totalPrice: { type: Number, required: true },
-        user: {
+        createdBy: {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             required: true

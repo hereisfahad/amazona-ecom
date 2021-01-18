@@ -29,7 +29,7 @@ const OrderProvider = ({ children }) => {
         postalCode: '',
         country: '',
     }
-    let tempPaymentMethod = 'payPal'
+    let tempPaymentMethod = ''
     if (process.browser) {
         tempShippingAdress = localStorage.getItem('shippingAddress') ? JSON.parse(localStorage.getItem('shippingAddress')) : {};
         tempPaymentMethod = localStorage.getItem('paymentMethod') ? JSON.parse(localStorage.getItem('paymentMethod')) : 'payPal';

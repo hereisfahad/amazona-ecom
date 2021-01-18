@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
     Text,
     Flex,
@@ -9,6 +10,7 @@ import {
     Img,
 } from "@chakra-ui/react";
 import { useRouter } from 'next/router'
+import jwt from 'jsonwebtoken'
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
@@ -20,24 +22,68 @@ const TaxRate = 0.15
 
 const PlaceOrder = () => {
     const router = useRouter()
-    const { shippingAddress, paymentMethod } = useOrder()
-    const { cartItems, cartTotal } = useCart()
+    const { shippingAddress, paymentMethod, setPaymentMethod, setShippingAddress } = useOrder()
+    const [loading, setLoading] = useState(false);
+    const { cartItems, cartTotal, setCartItems } = useCart()
 
     if (!shippingAddress) router.push('/shipping')
     if (!paymentMethod) router.push('/payment-method')
 
+    let user = undefined
     if (process.browser) {
-        let user = localStorage.getItem('user');
-        if (!user) router.push('/signin?redirect=placeorder')
+        user = JSON.parse(localStorage.getItem('user'));
+        jwt.verify(user?.token, process.env.NEXT_PUBLIC_JWT_SECRET, (err, _) => {
+            if (err) {
+                localStorage.removeItem('user')
+                router.push('/signin?redirect=placeorder')
+            }
+        })
     }
-
-    const handleSubmit = () => { }
 
     const { fullName, address, city, country, postalCode } = shippingAddress
 
-    const taxCost = TaxRate * cartTotal
-    const shippingCost = cartTotal > 100 ? 0 : 10
-    const orderTotal = cartTotal + shippingCost + taxCost
+    const taxPrice = TaxRate * cartTotal
+    const shippingPrice = cartTotal > 100 ? 0 : 10
+    const orderTotal = cartTotal + shippingPrice + taxPrice
+
+    const handleSubmit = async () => {
+        setLoading(true);
+        const orderDetail = {
+            orderItems: cartItems.map(({ name, quantity, image, price, _id }) => ({ name, quantity, image, price, product: _id })),
+            shippingAddress,
+            paymentMethod,
+            itemsPrice: cartTotal,
+            taxPrice,
+            shippingPrice,
+            totalPrice: orderTotal
+        }
+
+        const response = await fetch('/api/order', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${user.token}`
+            },
+            body: JSON.stringify(orderDetail),
+        });
+        const data = await response.json()
+        if (!data?.order) {
+            toasst({
+                title: "Error",
+                description: data.message,
+                status: "error",
+                duration: 4000,
+                isClosable: true,
+            })
+        } else {
+            setCartItems([])
+            setPaymentMethod('')
+            setShippingAddress({})
+            router.push(`/`)
+        }
+        setLoading(false);
+    }
 
     return (
         <DashboardShell>
@@ -145,10 +191,10 @@ const PlaceOrder = () => {
                                 <Text>Items: </Text> <Text fontSize="lg">${cartTotal.toFixed(2)}</Text>
                             </Flex>
                             <Flex justifyContent="space-between">
-                                <Text>Shipping: </Text> <Text fontSize="lg">${shippingCost.toFixed(2)}</Text>
+                                <Text>Shipping: </Text> <Text fontSize="lg">${shippingPrice.toFixed(2)}</Text>
                             </Flex>
                             <Flex justifyContent="space-between">
-                                <Text>Tax: </Text> <Text fontSize="lg">${taxCost.toFixed(2)}</Text>
+                                <Text>Tax: </Text> <Text fontSize="lg">${taxPrice.toFixed(2)}</Text>
                             </Flex>
                             <Flex justifyContent="space-between" fontWeight="semibold">
                                 <Text>Order Total: </Text> <Text fontSize="lg">${orderTotal.toFixed(2)}</Text>
@@ -159,6 +205,7 @@ const PlaceOrder = () => {
                         bg="yellow.400"
                         rounded="md"
                         mt="auto"
+                        isLoading={loading}
                         onClick={handleSubmit}
                     >
                         Place Order
