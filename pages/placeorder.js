@@ -26,9 +26,6 @@ const PlaceOrder = () => {
     const [loading, setLoading] = useState(false);
     const { cartItems, cartTotal, setCartItems } = useCart()
 
-    if (!shippingAddress) router.push('/shipping')
-    if (!paymentMethod) router.push('/payment-method')
-
     let user = undefined
     if (process.browser) {
         user = JSON.parse(localStorage.getItem('user'));
@@ -58,7 +55,7 @@ const PlaceOrder = () => {
             totalPrice: orderTotal
         }
 
-        const response = await fetch('/api/order', {
+        const response = await fetch('/api/orders', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -80,8 +77,8 @@ const PlaceOrder = () => {
             setCartItems([])
             setPaymentMethod('')
             setShippingAddress({})
-            router.push(`/`)
         }
+        router.push(`/orders/${data.order._id}`)
         setLoading(false);
     }
 
