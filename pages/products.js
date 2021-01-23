@@ -1,4 +1,4 @@
-import { Text, SimpleGrid, Link } from "@chakra-ui/react";
+import { Text, SimpleGrid, Link, Flex, Spinner } from "@chakra-ui/react";
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
 import NextLink from 'next/link';
@@ -9,6 +9,17 @@ import ProductCard from '@/components/ProductCard'
 
 const Products = () => {
     const { data } = useSWR(`/api/products`, fetcher);
+    if(!data) return (
+        <Flex minHeight="100vh" justifyContent="center" alignItems="center">
+            <Spinner
+                thickness="4px"
+                speed=".65s"
+                emptyColor="gray.200"
+                color="blue.500"
+                size="xl"
+            />
+        </Flex>
+    )
     return (
         <DashboardShell>
             <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">

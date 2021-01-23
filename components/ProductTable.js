@@ -32,7 +32,7 @@ const ProductTable = (props) => {
           {cartItems.map((item, index) => (
             <Box as="tr" key={index}>
               <Td>
-                <Img src={item.image} alt="Segun Adebayo" maxWidth="4rem" width="100%" rounded="md" borderBottomRadius="none" />
+                <Img src={item.image} alt="Segun Adebayo" maxWidth="4rem" width="100%" rounded="md" />
               </Td>
               <Td>{item.name}</Td>
               <Td>

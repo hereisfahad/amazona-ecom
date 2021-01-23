@@ -7,7 +7,9 @@ import {
     Alert,
     Link
 } from "@chakra-ui/react";
+import { useRouter } from 'next/router'
 import NextLink from 'next/link';
+import jwt from 'jsonwebtoken'
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
@@ -15,7 +17,21 @@ import ProductTable from '@/components/ProductTable';
 import { useCart } from '@/providers/cart';
 
 const Cart = () => {
-    const { cartItemsCount, cartTotal, cartItems } = useCart()
+    const router = useRouter()
+    const { cartItemsCount, cartTotal } = useCart()
+
+    const handleSubmit = () => {
+        if (process.browser) {
+            let user = JSON.parse(localStorage.getItem('user'));
+            jwt.verify(user?.token, process.env.NEXT_PUBLIC_JWT_SECRET, (err, _) => {
+                if (err) {
+                    localStorage.removeItem('user')
+                    router.push('/signin?redirect=shipping')
+                }
+                else router.push('/shipping')
+            })
+        }
+    }
 
     return (
         <DashboardShell>
@@ -38,14 +54,14 @@ const Cart = () => {
                             direction={["column", "column", "row"]}
                             maxW="90vw"
                         >
-                            <ProductTable flex="auto" mb={4}/>
+                            <ProductTable flex="auto" mb={4} />
                             <Flex
                                 direction="column"
                                 bg="gray.100"
                                 rounded="md"
                                 p={4}
                                 h="9rem"
-                                ml={[0,0,8]}
+                                ml={[0, 0, 8]}
                                 border="1px solid"
                                 borderColor="gray.300"
                             >
@@ -54,7 +70,12 @@ const Cart = () => {
                                         <Text>SubTotal ( items): </Text> <Text fontSize="lg">${cartTotal}</Text>
                                     </ListItem>
                                 </List>
-                                <Button bg="yellow.400" rounded="md" mt="auto">
+                                <Button
+                                    bg="yellow.400"
+                                    rounded="md"
+                                    mt="auto"
+                                    onClick={handleSubmit}
+                                >
                                     Proceed To Checkout
                             </Button>
                             </Flex>
