@@ -77,7 +77,6 @@ const PlaceOrder = () => {
             })
         } else {
             setCartItems([])
-            setPaymentMethod('')
             setShippingAddress({})
         }
         router.push(`/orders/${data.order._id}`)

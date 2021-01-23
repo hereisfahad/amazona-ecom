@@ -69,7 +69,7 @@ const Payment = () => {
                         name="paymentMethod"
                     >
                         <Stack>
-                            <Radio value="PayPal">PayPal</Radio>
+                            {/* <Radio value="PayPal">PayPal</Radio> */}
                             <Radio value="Stripe">Stripe</Radio>
                         </Stack>
                     </RadioGroup>
