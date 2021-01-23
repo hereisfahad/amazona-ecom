@@ -13,7 +13,7 @@ export default async function handler(req, res) {
                 const payload = {
                     user: { id: user.id }
                 }
-                const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 })
+                const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600*4 })
                 const { _id, name, email, isAdmin, image } = user
                 return res.status(200).json({
                     success: true,

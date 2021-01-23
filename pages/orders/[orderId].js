@@ -9,20 +9,25 @@ import {
     SimpleGrid,
     Img,
     Spinner,
-    Alert
+    Alert,
+    useToast
 } from "@chakra-ui/react";
 import { useRouter } from 'next/router'
 import jwt from 'jsonwebtoken'
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
 import { format } from 'date-fns'
+import { loadStripe } from "@stripe/stripe-js";
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
 import { Table, Tr, Th, Td } from '@/components/Table';
 
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+
 const OrderDetail = () => {
     const router = useRouter()
+    const toast = useToast()
     const [loading, setLoading] = useState(false);
 
     let user = undefined
@@ -61,47 +66,44 @@ const OrderDetail = () => {
         shippingPrice,
         totalPrice,
         isPaid,
-        isDelivered
+        paidAt,
+        isDelivered,
+        deliveredAt,
+        createdBy
     } = Order
     const { fullName, address, city, country, postalCode } = shippingAddress
 
-    const handleSubmit = async () => {
-        setLoading(true);
-        const orderDetail = {
-            orderItems: cartItems.map(({ name, quantity, image, price, _id }) => ({ name, quantity, image, price, product: _id })),
-            shippingAddress,
-            paymentMethod,
-            itemsPrice: cartTotal,
-            taxPrice,
-            shippingPrice,
-            totalPrice: orderTotal
-        }
-
-        const response = await fetch('/api/orders', {
-            method: 'POST',
-            headers: {
+    const handleClick = async () => {
+        setLoading(true)
+        const stripe = await stripePromise;
+        const response = await fetch("/api/create-checkout-session", {
+          method: "POST",
+          headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${user.token}`
-            },
-            body: JSON.stringify(orderDetail),
+           },
+            body: JSON.stringify({
+                orderId,
+                totalPrice,
+                email: createdBy.email,
+            }),
         });
-        const data = await response.json()
-        if (!data?.order) {
-            toasst({
-                title: "Error",
-                description: data.message,
+        const session = await response.json();
+        
+        const result = await stripe.redirectToCheckout({
+          sessionId: session.id,
+        });
+
+        if (result.error) {
+            toast({
+                title: "Redirect Error",
+                description: result.error.message,
                 status: "error",
                 duration: 4000,
                 isClosable: true,
             })
-        } else {
-            setCartItems([])
-            setPaymentMethod('')
-            setShippingAddress({})
-            router.push(`/`)
         }
-        setLoading(false);
+        setLoading(false)
     }
 
     return (
@@ -139,7 +141,7 @@ const OrderDetail = () => {
                             isDelivered ? (
                                 <Alert status="info">Delivered at {format(new Date(deliveredAt), 'yyyy-MM-dd')}</Alert>
                             ): (
-                                <Alert status="info">Not delivered yet</Alert>
+                                <Alert status="info">Not delivered</Alert>
                             )
                         }
                     </Flex>
@@ -166,7 +168,7 @@ const OrderDetail = () => {
                             isPaid ? (
                                 <Alert status="info">Paid at {format(new Date(paidAt), 'yyyy-MM-dd')}</Alert>
                             ): (
-                                <Alert status="info">Haven't paid yet</Alert>
+                                <Alert status="info">Not paid</Alert>
                             )
                         }
                     </Flex>
@@ -234,15 +236,17 @@ const OrderDetail = () => {
                             </Flex>
                         </ListItem>
                     </List>
-                    {/* <Button
+                    <Button
                         bg="yellow.400"
+                        role="link"
                         rounded="md"
                         mt="auto"
                         isLoading={loading}
-                        onClick={handleSubmit}
+                        onClick={handleClick}
+                        disabled={isPaid}
                     >
-                        Place Order
-                    </Button> */}
+                        Pay with stripe
+                    </Button>
                 </Flex>
 
             </SimpleGrid>

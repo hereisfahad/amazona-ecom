@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
     Text,
     Flex,
@@ -18,9 +19,11 @@ import { useCart } from '@/providers/cart';
 
 const Cart = () => {
     const router = useRouter()
+    const [loading, setLoading] = useState(false)
     const { cartItemsCount, cartTotal } = useCart()
 
     const handleSubmit = () => {
+        setLoading(true)
         if (process.browser) {
             let user = JSON.parse(localStorage.getItem('user'));
             jwt.verify(user?.token, process.env.NEXT_PUBLIC_JWT_SECRET, (err, _) => {
@@ -75,6 +78,7 @@ const Cart = () => {
                                     rounded="md"
                                     mt="auto"
                                     onClick={handleSubmit}
+                                    isLoading={loading}
                                 >
                                     Proceed To Checkout
                             </Button>

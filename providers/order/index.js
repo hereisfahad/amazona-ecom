@@ -13,7 +13,7 @@ export const orderContext = createContext({
         postalCode: '',
         country: '',
     },
-    paymentMethod: 'payPal',
+    paymentMethod: 'Stripe',
 });
 
 export const useOrder = () => {
@@ -32,7 +32,7 @@ const OrderProvider = ({ children }) => {
     let tempPaymentMethod = ''
     if (process.browser) {
         tempShippingAdress = localStorage.getItem('shippingAddress') ? JSON.parse(localStorage.getItem('shippingAddress')) : {};
-        tempPaymentMethod = localStorage.getItem('paymentMethod') ? JSON.parse(localStorage.getItem('paymentMethod')) : 'payPal';
+        tempPaymentMethod = localStorage.getItem('paymentMethod') ? JSON.parse(localStorage.getItem('paymentMethod')) : 'Stripe';
     }
     const [shippingAddress, setShippingAddress] = useState(tempShippingAdress);
     const [paymentMethod, setPaymentMethod] = useState(tempPaymentMethod);

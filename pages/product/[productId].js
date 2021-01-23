@@ -25,6 +25,7 @@ import Rating from '@/components/Rating';
 
 const Product = () => {
     const [quantity, setQuantity] = useState(1);
+    const [loading, setLoading] = useState(false)
     const router = useRouter()
     const { addItem } = useCart()
     const { data } = useSWR(`/api/products?_id=${router.query.productId}`, fetcher);
@@ -44,6 +45,7 @@ const Product = () => {
     const { image, name, rating, numReviews, price, description, countInStock } = data?.products[0]
 
     const handleAddToCart = () => {
+        setLoading(true)
         addItem(data?.products[0], Number(quantity))
         router.push('/cart')
     }
@@ -110,6 +112,7 @@ const Product = () => {
                         bg="yellow.400"
                         rounded="md"
                         disabled={countInStock === 0}
+                        isLoading={loading}
                         onClick={handleAddToCart}
                     >
                         Add to Cart

@@ -8,6 +8,7 @@ import {
     Box,
     SimpleGrid,
     Img,
+    useToast
 } from "@chakra-ui/react";
 import { useRouter } from 'next/router'
 import jwt from 'jsonwebtoken'
@@ -22,6 +23,7 @@ const TaxRate = 0.15
 
 const PlaceOrder = () => {
     const router = useRouter()
+    const toast = useToast()
     const { shippingAddress, paymentMethod, setPaymentMethod, setShippingAddress } = useOrder()
     const [loading, setLoading] = useState(false);
     const { cartItems, cartTotal, setCartItems } = useCart()
@@ -66,7 +68,7 @@ const PlaceOrder = () => {
         });
         const data = await response.json()
         if (!data?.order) {
-            toasst({
+            toast({
                 title: "Error",
                 description: data.message,
                 status: "error",
@@ -75,7 +77,6 @@ const PlaceOrder = () => {
             })
         } else {
             setCartItems([])
-            setPaymentMethod('')
             setShippingAddress({})
         }
         router.push(`/orders/${data.order._id}`)
