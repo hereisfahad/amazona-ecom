@@ -141,7 +141,7 @@ const OrderDetail = () => {
                             isDelivered ? (
                                 <Alert status="info">Delivered at {format(new Date(deliveredAt), 'yyyy-MM-dd')}</Alert>
                             ): (
-                                <Alert status="info">Not delivered yet</Alert>
+                                <Alert status="info">Not delivered</Alert>
                             )
                         }
                     </Flex>
@@ -168,7 +168,7 @@ const OrderDetail = () => {
                             isPaid ? (
                                 <Alert status="info">Paid at {format(new Date(paidAt), 'yyyy-MM-dd')}</Alert>
                             ): (
-                                <Alert status="info">Haven't paid yet</Alert>
+                                <Alert status="info">Not paid</Alert>
                             )
                         }
                     </Flex>
