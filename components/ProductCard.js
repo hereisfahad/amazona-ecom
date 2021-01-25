@@ -1,4 +1,5 @@
-import { Box, Img, Text, Flex} from '@chakra-ui/react';
+import { Box, Text, Flex } from '@chakra-ui/react';
+import Image from "next/image";
 
 import Rating from '@/components/Rating';
 
@@ -6,7 +7,12 @@ const ProductCard = ({ product }) => {
     const { name, image, rating, numReviews, price } = product
     return (
         <Box borderWidth="1px" borderColor="gray.200" rounded="md" bg="gray.50">
-            <Img src={image} alt="product image" maxWidth="16rem" width="100%" rounded="md" borderBottomRadius="none"/>
+            <Image 
+                src={image}
+                alt="product image"
+                width="auto"
+                height="350px"
+            />
          <Box display="flex" flexDirection="column" p={4}>
             <Text as="h2" fontSize="lg" mb={3}>{name}</Text>
             <Flex alignItems="center">
