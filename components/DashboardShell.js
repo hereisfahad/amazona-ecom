@@ -6,10 +6,16 @@ import {
     Flex,
     Link,
     Button,
-    Badge
+    Badge,
+    Avatar,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
 } from '@chakra-ui/react';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { RiAmazonLine } from 'react-icons/ri';
+import { GoChevronDown } from 'react-icons/go';
 
 import { useCart } from '@/providers/cart';
 import Footer from './Footer';
@@ -83,7 +89,29 @@ const DashboardShell = ({ children }) => {
                         </NextLink>
                         {
                             user ? (
-                                <Button onClick={() => signOut()}>Sign Out</Button>
+                                <>
+                                    <Menu autoSelect={false}>
+                                        <MenuButton 
+                                            as={Button} 
+                                            rightIcon={<GoChevronDown />} 
+                                            padding="0px"
+                                            _hover={{ bg: "gray.100" }}
+                                            _active={{ bg:"gray.100" }}
+                                        >
+                                            <Avatar size="sm" name={user.name} src={user.image} />
+                                        </MenuButton>
+                                        <MenuList>
+                                            <NextLink href="/profile" passHref>
+                                                <Link>
+                                                    <MenuItem bg={router.pathname === "/profile" ? 'gray.200': 'white'}>
+                                                        Profile
+                                                    </MenuItem>
+                                                </Link>
+                                            </NextLink>
+                                            <MenuItem onClick={() => signOut()}>Sign Out</MenuItem>
+                                        </MenuList>
+                                    </Menu>
+                                </>
                             ) :
                                 (
                                     <NextLink href="/signin" passHref>
