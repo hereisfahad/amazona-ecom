@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         }
     } else {
         try {
-            const orders = await Order.find(req.query).populate('createdBy').populate('orderItems.product')
+            const orders = await Order.find(req.query).populate('createdBy').populate('orderItems.product').sort({ createdAt: -1})
             res.status(200).json({ success: true, orders })
         } catch (error) {
             res.status(400).json({ success: false })
