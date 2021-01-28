@@ -108,6 +108,13 @@ const DashboardShell = ({ children }) => {
                                                     </MenuItem>
                                                 </Link>
                                             </NextLink>
+                                            <NextLink href="/orders" passHref>
+                                                <Link>
+                                                    <MenuItem bg={router.pathname === "/orders" ? 'gray.200': 'white'}>
+                                                        Orders
+                                                    </MenuItem>
+                                                </Link>
+                                            </NextLink>
                                             <MenuItem onClick={() => signOut()}>Sign Out</MenuItem>
                                         </MenuList>
                                     </Menu>
