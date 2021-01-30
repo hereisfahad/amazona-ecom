@@ -91,26 +91,23 @@ const DashboardShell = ({ children }) => {
                             user ? (
                                 <>
                                     <Menu autoSelect={false}>
-                                        <MenuButton 
-                                            as={Button} 
-                                            rightIcon={<GoChevronDown />} 
-                                            padding="0px"
-                                            _hover={{ bg: "gray.100" }}
-                                            _active={{ bg:"gray.100" }}
+                                        <MenuButton
+                                            as={Button}
+                                            rightIcon={<GoChevronDown />}
                                         >
                                             <Avatar size="sm" name={user.name} src={user.image} />
                                         </MenuButton>
                                         <MenuList>
                                             <NextLink href="/profile" passHref>
                                                 <Link>
-                                                    <MenuItem bg={router.pathname === "/profile" ? 'gray.200': 'white'}>
+                                                    <MenuItem bg={router.pathname === "/profile" ? 'gray.200' : 'white'}>
                                                         Profile
                                                     </MenuItem>
                                                 </Link>
                                             </NextLink>
                                             <NextLink href="/orders" passHref>
                                                 <Link>
-                                                    <MenuItem bg={router.pathname === "/orders" ? 'gray.200': 'white'}>
+                                                    <MenuItem bg={router.pathname === "/orders" ? 'gray.200' : 'white'}>
                                                         Orders
                                                     </MenuItem>
                                                 </Link>
@@ -126,7 +123,7 @@ const DashboardShell = ({ children }) => {
                                             fontWeight={router.pathname === "/signin" ? 'semibold' : 'normal'}
                                         >
                                             Sign In
-                                </Link>
+                                        </Link>
                                     </NextLink>
                                 )
                         }
