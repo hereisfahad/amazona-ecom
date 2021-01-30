@@ -1,10 +1,11 @@
 import {
-    Text,
     FormControl,
     FormLabel,
     Input,
     FormErrorMessage,
     Stack,
+    center,
+    Avatar
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 
@@ -35,9 +36,9 @@ const Profile = () => {
                 spacing={4}
                 w="100%"
             >
-                <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">
-                    Account Information
-            </Text>
+                <center>
+                    <Avatar size="2xl" name={user?.name} src={user?.image} />
+                </center>
                 <FormControl isInvalid={errors.name && errors.name.message} w="full">
                     <FormLabel htmlFor="name">Name</FormLabel>
                     <Input
