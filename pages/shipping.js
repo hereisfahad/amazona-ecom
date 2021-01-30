@@ -2,10 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router'
 import {
     Text,
-    FormControl,
-    FormLabel,
     Input,
-    FormErrorMessage,
     Button,
     Stack,
 } from "@chakra-ui/react";
@@ -15,6 +12,7 @@ import jwt from 'jsonwebtoken'
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
+import InputWrapper from '@/components/InputWrapper';
 
 const Shipping = () => {
     const router = useRouter()
@@ -58,8 +56,7 @@ const Shipping = () => {
                 <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">
                     Shipping Address
                 </Text>
-                <FormControl isInvalid={errors.fullName && errors.fullName.message} w="full">
-                    <FormLabel htmlFor="fullName">Full Name</FormLabel>
+                <InputWrapper label="Full Name" htmlFor="fullName" error={errors.fullName}>
                     <Input
                         autoFocus
                         aria-label="Full Name"
@@ -71,12 +68,8 @@ const Shipping = () => {
                         })}
                         placeholder="Enter full name"
                     />
-                    <FormErrorMessage>
-                        {errors.fullName && errors.fullName.message}
-                    </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={errors.address && errors.address.message}>
-                    <FormLabel htmlFor="address">Address</FormLabel>
+                </InputWrapper>
+                <InputWrapper label="Address" htmlFor="address" error={errors.address}>
                     <Input
                         defaultValue={shippingAddress.address}
                         aria-label="Address"
@@ -87,12 +80,8 @@ const Shipping = () => {
                         })}
                         placeholder="Enter address"
                     />
-                    <FormErrorMessage>
-                        {errors.address && errors.address.message}
-                    </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={errors.city && errors.city.message}>
-                    <FormLabel htmlFor="city">City</FormLabel>
+                </InputWrapper>
+                <InputWrapper label="City" htmlFor="city" error={errors.city}>
                     <Input
                         defaultValue={shippingAddress.city}
                         aria-label="city"
@@ -103,12 +92,8 @@ const Shipping = () => {
                         })}
                         placeholder="Enter city"
                     />
-                    <FormErrorMessage>
-                        {errors.city && errors.city.message}
-                    </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={errors.postalCode && errors.postalCode.message}>
-                    <FormLabel htmlFor="postalCode">Postal Code</FormLabel>
+                </InputWrapper>
+                <InputWrapper label="Postal Code" htmlFor="postalCode" error={errors.postalCode}>
                     <Input
                         defaultValue={shippingAddress.postalCode}
                         aria-label="postalCode"
@@ -119,12 +104,8 @@ const Shipping = () => {
                         })}
                         placeholder="Enter postal adress"
                     />
-                    <FormErrorMessage>
-                        {errors.postalCode && errors.postalCode.message}
-                    </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={errors.country && errors.country.message}>
-                    <FormLabel htmlFor="country">Country</FormLabel>
+                </InputWrapper>
+                <InputWrapper label="Country" htmlFor="country" error={errors.country}>
                     <Input
                         defaultValue={shippingAddress.country}
                         aria-label="country"
@@ -135,10 +116,7 @@ const Shipping = () => {
                         })}
                         placeholder="Enter country"
                     />
-                    <FormErrorMessage>
-                        {errors.country && errors.country.message}
-                    </FormErrorMessage>
-                </FormControl>
+                </InputWrapper>
                 <Button
                     id="shippingAddress"
                     type="submit"
@@ -154,7 +132,7 @@ const Shipping = () => {
                     }}
                 >
                     Continue
-            </Button>
+                </Button>
             </Stack>
         </DashboardShell>
     )

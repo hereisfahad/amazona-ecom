@@ -3,12 +3,9 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router'
 import {
     Text,
-    FormControl,
-    FormLabel,
     InputGroup,
     InputRightAddon,
     Input,
-    FormErrorMessage,
     Button,
     Stack,
     Flex,
@@ -20,13 +17,14 @@ import { useForm } from "react-hook-form";
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
+import InputWrapper from '@/components/InputWrapper';
 
 const Register = () => {
     const router = useRouter()
     const { redirect } = router.query
-    if(process.browser){
+    if (process.browser) {
         let user = localStorage.getItem('user');
-        if(user) router.push('/')
+        if (user) router.push('/')
     }
 
     const { register, handleSubmit, errors } = useForm();
@@ -79,8 +77,7 @@ const Register = () => {
                 <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">
                     Create Account
             </Text>
-            <FormControl isInvalid={errors.name && errors.name.message} w="full">
-                    <FormLabel htmlFor="name">Name</FormLabel>
+                <InputWrapper label="Name" htmlFor="name" error={errors.name}>
                     <Input
                         autoFocus
                         aria-label="Name"
@@ -91,12 +88,8 @@ const Register = () => {
                         })}
                         placeholder="Duck"
                     />
-                    <FormErrorMessage>
-                        {errors.name && errors.name.message}
-                    </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={errors.email && errors.email.message} w="full">
-                    <FormLabel htmlFor="email">Email Address</FormLabel>
+                </InputWrapper>
+                <InputWrapper label="Email Address" htmlFor="email" error={errors.email}>
                     <Input
                         aria-label="Email Address"
                         id="email"
@@ -110,12 +103,8 @@ const Register = () => {
                         })}
                         placeholder="email@site.com"
                     />
-                    <FormErrorMessage>
-                        {errors.email && errors.email.message}
-                    </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={errors.password && errors.password.message}>
-                    <FormLabel htmlFor="password">Password</FormLabel>
+                </InputWrapper>
+                <InputWrapper label="Password" htmlFor="password" error={errors.password}>
                     <InputGroup size="md">
                         <Input
                             aria-label="Password"
@@ -130,7 +119,7 @@ const Register = () => {
                                 maxLength: {
                                     value: 16,
                                     message: 'Password can only be 16 characters long.'
-                                }, 
+                                },
                                 required: 'Please enter a password.'
                             })}
                         />
@@ -141,10 +130,7 @@ const Register = () => {
                             {showPassword ? <FaEye /> : <FaEyeSlash />}
                         </InputRightAddon>
                     </InputGroup>
-                    <FormErrorMessage>
-                        {errors.password && errors.password.message}
-                    </FormErrorMessage>
-                </FormControl>
+                </InputWrapper>
                 <Button
                     id="login"
                     type="submit"
@@ -170,7 +156,7 @@ const Register = () => {
                     direction={['column', 'row']}
                 >
 
-                    <NextLink href={`/signin${redirect? `?redirect=${redirect}`: ''}`} passHref>
+                    <NextLink href={`/signin${redirect ? `?redirect=${redirect}` : ''}`} passHref>
                         <Link
                             color='gray.900'
                             fontWeight="bold"

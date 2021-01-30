@@ -3,12 +3,9 @@ import NextLink from 'next/link';
 import { useRouter } from 'next/router'
 import {
     Text,
-    FormControl,
-    FormLabel,
     InputGroup,
     InputRightAddon,
     Input,
-    FormErrorMessage,
     Button,
     Stack,
     Flex,
@@ -20,13 +17,14 @@ import { useForm } from "react-hook-form";
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
+import InputWrapper from '@/components/InputWrapper';
 
 const SignIn = () => {
     const router = useRouter()
     const { redirect } = router.query
-    if(process.browser){
+    if (process.browser) {
         let user = localStorage.getItem('user');
-        if(user) router.push('/')
+        if (user) router.push('/')
     }
     const { register, handleSubmit, errors } = useForm();
     const [loading, setLoading] = useState(false);
@@ -77,9 +75,8 @@ const SignIn = () => {
             >
                 <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">
                     Sign In
-            </Text>
-                <FormControl isInvalid={errors.email && errors.email.message} w="full">
-                    <FormLabel htmlFor="email">Email Address</FormLabel>
+                </Text>
+                <InputWrapper label="Email Address" htmlFor="email" error={errors.email}>
                     <Input
                         autoFocus
                         aria-label="Email Address"
@@ -94,12 +91,8 @@ const SignIn = () => {
                         })}
                         placeholder="email@site.com"
                     />
-                    <FormErrorMessage>
-                        {errors.email && errors.email.message}
-                    </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={errors.password && errors.password.message}>
-                    <FormLabel htmlFor="password">Password</FormLabel>
+                </InputWrapper>
+                <InputWrapper label="Password" htmlFor="password" error={errors.password}>
                     <InputGroup size="md">
                         <Input
                             aria-label="Password"
@@ -117,10 +110,7 @@ const SignIn = () => {
                             {showPassword ? <FaEye /> : <FaEyeSlash />}
                         </InputRightAddon>
                     </InputGroup>
-                    <FormErrorMessage>
-                        {errors.password && errors.password.message}
-                    </FormErrorMessage>
-                </FormControl>
+                </InputWrapper>
                 <Button
                     id="login"
                     type="submit"
@@ -145,7 +135,7 @@ const SignIn = () => {
                     mt={1}
                     direction={['column', 'row']}
                 >
-                    <NextLink href={`/register${redirect? `?redirect=${redirect}`: ''}`} passHref>
+                    <NextLink href={`/register${redirect ? `?redirect=${redirect}` : ''}`} passHref>
                         <Link
                             color='gray.900'
                             fontWeight="bold"
