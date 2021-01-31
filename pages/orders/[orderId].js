@@ -8,7 +8,6 @@ import {
     Box,
     SimpleGrid,
     Img,
-    Spinner,
     Alert,
     useToast
 } from "@chakra-ui/react";
@@ -22,6 +21,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
 import { Table, Tr, Th, Td } from '@/components/Table';
+import OrderDetailSkeleton from '@/skeletons/OrderDetailSkeleton';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
@@ -43,16 +43,19 @@ const OrderDetail = () => {
 
     const { orderId } = router.query
     const { data } = useSWR(`/api/orders?_id=${orderId}`, fetcher);
+
     if (!data?.orders) return (
-        <Flex minHeight="100vh" justifyContent="center" alignItems="center">
-            <Spinner
-                thickness="4px"
-                speed=".65s"
-                emptyColor="gray.200"
-                color="blue.500"
-                size="xl"
-            />
-        </Flex>
+        <DashboardShell>
+            <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">
+                Order Detail
+            </Text>
+            <SimpleGrid
+                columns={[1, 1, 2]}
+                spacing={[0, 0, 10]}
+            >
+                <OrderDetailSkeleton />
+            </SimpleGrid>
+        </DashboardShell>
     )
     const Order = data?.orders?.[0]
     console.log(Order)
@@ -77,11 +80,11 @@ const OrderDetail = () => {
         setLoading(true)
         const stripe = await stripePromise;
         const response = await fetch("/api/create-checkout-session", {
-          method: "POST",
-          headers: {
+            method: "POST",
+            headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
-           },
+            },
             body: JSON.stringify({
                 orderId,
                 totalPrice,
@@ -89,9 +92,9 @@ const OrderDetail = () => {
             }),
         });
         const session = await response.json();
-        
+
         const result = await stripe.redirectToCheckout({
-          sessionId: session.id,
+            sessionId: session.id,
         });
 
         if (result.error) {
@@ -140,9 +143,9 @@ const OrderDetail = () => {
                         {
                             isDelivered ? (
                                 <Alert status="info">Delivered at {format(new Date(deliveredAt), 'yyyy-MM-dd')}</Alert>
-                            ): (
-                                <Alert status="info">Not delivered</Alert>
-                            )
+                            ) : (
+                                    <Alert status="info">Not delivered</Alert>
+                                )
                         }
                     </Flex>
 
@@ -167,9 +170,9 @@ const OrderDetail = () => {
                         {
                             isPaid ? (
                                 <Alert status="info">Paid at {format(new Date(paidAt), 'yyyy-MM-dd')}</Alert>
-                            ): (
-                                <Alert status="info">Not paid</Alert>
-                            )
+                            ) : (
+                                    <Alert status="info">Not paid</Alert>
+                                )
                         }
                     </Flex>
 

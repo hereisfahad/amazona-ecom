@@ -1,7 +1,7 @@
 import {
     Text,
     Alert,
-    Link
+    Link,
 } from "@chakra-ui/react";
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
@@ -11,10 +11,11 @@ import jwt from 'jsonwebtoken'
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
-import OrdersTable from '@/components/OrdersTable'
+import OrdersTable from '@/components/OrdersTable';
+import OrdersTableSkeleton from '@/skeletons/OrdersTableSkeleton';
 
 const Orders = () => {
-    let orders = []
+    let orders = false
     const router = useRouter()
 
     if (process.browser) {
@@ -25,7 +26,7 @@ const Orders = () => {
                 router.push('/signin?redirect=orders')
             }
             const { data } = useSWR(`/api/orders?createdBy=${user?._id}`, fetcher);
-            orders = data?.orders ?? []
+            orders = data?.orders
         })
     }
 
@@ -35,18 +36,20 @@ const Orders = () => {
                 Orders History
             </Text>
             {
-                orders.length < 1 ? (
-                    <Alert status="info">
-                        You have'nt placed any orders yet.
-                        <NextLink href="/products" passHref>
-                            <Link ml={2}>
-                                Go Shopping
-                            </Link>
-                        </NextLink>
-                    </Alert>
-                ) : (
-                        <OrdersTable orders={orders} flex="auto" mb={4} />
-                    )
+                !orders ? <OrdersTableSkeleton /> : (
+                    orders.length < 1 ? (
+                        <Alert status="info">
+                            You have'nt placed any orders yet.
+                            <NextLink href="/products" passHref>
+                                <Link ml={2}>
+                                    Go Shopping
+                                </Link>
+                            </NextLink>
+                        </Alert>
+                    ) : (
+                            <OrdersTable orders={orders} flex="auto" mb={4} />
+                        )
+                )
             }
         </DashboardShell>
     )
