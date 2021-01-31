@@ -2,7 +2,8 @@ import React from 'react';
 import {
   Box,
   IconButton,
-  Link
+  Link,
+  Tag
 } from '@chakra-ui/react';
 import { FaEye } from "react-icons/fa"
 import NextLink from 'next/link';
@@ -29,8 +30,8 @@ const OrdersTable = ({ orders, ...rest }) => {
             <Box as="tr" key={index}>
               <Td>{createdBy.name}</Td>
               <Td>${totalPrice.toFixed(2)}</Td>
-              <Td>{isPaid ? 'Yes': 'No'}</Td>
-              <Td>{isDelivered ? 'Yes': 'No'}</Td>
+              <Td>{isPaid ? <Tag colorScheme="green">Yes</Tag> : <Tag colorScheme="red">No</Tag>}</Td>
+              <Td>{isDelivered ? <Tag colorScheme="green">Yes</Tag> : <Tag colorScheme="orange">No</Tag>}</Td>
               <Td>{format(new Date(createdAt), 'yyyy-MM-dd')}</Td>
               <Td>
                 <NextLink href={`orders/${_id}`} passHref>
