@@ -10,7 +10,7 @@ const ImageWithSkeleton = ({ image }) => {
             <Img 
                 src={image}
                 alt="product image"
-                width="300px"
+                width="100%"
                 height="300px"
                 rounded="md"
                 borderBottomRadius="none"
