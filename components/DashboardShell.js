@@ -131,7 +131,7 @@ const DashboardShell = ({ children }) => {
                 </Flex>
             </Flex>
             <Flex pos="relative" minHeight="80vh">
-                <Flex margin="0 auto" mb={16} direction="column" maxW="1250px" px={[4, 8, 8]}>
+                <Flex margin="0 auto" mb={16} direction="column" width="100%" maxW="1250px" px={[4, 8, 8]}>
                     {children}
                 </Flex>
                 <Footer />

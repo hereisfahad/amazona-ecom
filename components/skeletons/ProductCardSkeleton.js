@@ -5,7 +5,6 @@ const ProductCardSkeleton = () => {
         <Box borderWidth="1px" borderColor="gray.200" rounded="md" bg="gray.50">
             <Skeleton>
                 <Box 
-                     width="300px"
                      height="300px"
                      rounded="md"
                      borderBottomRadius="none"
