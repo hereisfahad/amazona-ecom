@@ -26,15 +26,17 @@ const Profile = () => {
             <Stack
                 as="form"
                 backgroundColor="white"
+                border="1px solid"
+                borderColor="gray.100"
                 borderRadius={[0, 8]}
                 errors={errors}
                 minWidth={["auto", "400px", "600px"]}
+                maxWidth="450px"
                 size="lg"
-                px={8}
-                py={12}
+                p={8}
                 shadow={['md', 'lg']}
                 spacing={4}
-                w="100%"
+                marginX="auto"
             >
                 <center>
                     <Avatar size="2xl" name={user?.name} src={user?.image} />

@@ -29,7 +29,7 @@ const Chart = ({ options }) => {
             borderRadius="8px"
             paddingX="10px"
             paddingY="15px"
-            boxShadow="lg"
+            shadow={['md', 'lg']}
             ref={chartRef}
             resize
         />
