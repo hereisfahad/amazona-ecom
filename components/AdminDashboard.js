@@ -11,6 +11,7 @@ import {
     MenuList,
     MenuItem,
 } from '@chakra-ui/react';
+import { RiAmazonLine } from 'react-icons/ri';
 import { GoChevronDown } from 'react-icons/go';
 
 const AdminDashboard = ({ children }) => {
@@ -43,7 +44,16 @@ const AdminDashboard = ({ children }) => {
                     px={8}
                     h="60px"
                 >
-                    <Flex align="center" />
+                    <Flex align="center">
+                        <NextLink href="/" passHref>
+                            <Link
+                                mr={4}
+                                fontWeight={router.pathname === "/" ? 'semibold' : 'normal'}
+                            >
+                                <RiAmazonLine />
+                            </Link>
+                        </NextLink>
+                    </Flex>
                     <Flex justifyContent="center" alignItems="center">
                         {
                             user ? (
