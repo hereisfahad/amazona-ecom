@@ -18,6 +18,7 @@
     "bcrypt": "^5.0.0",
     "date-fns": "^2.16.1",
     "dotenv": "^8.2.0",
+    "echarts": "^5.0.1",
     "framer-motion": "^2.9.5",
     "gravatar": "^1.8.1",
     "jsonwebtoken": "^8.5.1",
