@@ -63,16 +63,18 @@ const Register = () => {
             <Stack
                 as="form"
                 backgroundColor="white"
+                border="1px solid"
+                borderColor="gray.100"
                 borderRadius={[0, 8]}
                 errors={errors}
-                minWidth={["auto", "400px", "600px"]}
+                minWidth={["auto", "400px", "450px"]}
+                maxWidth="450px"
                 size="lg"
-                onSubmit={handleSubmit((data) => onRegister(data))}
-                px={8}
-                py={12}
+                onSubmit={handleSubmit((data) => onLogin(data))}
+                p={8}
                 shadow={['md', 'lg']}
                 spacing={4}
-                w="100%"
+                marginX="auto"
             >
                 <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">
                     Create Account
@@ -150,7 +152,6 @@ const Register = () => {
                 <Flex
                     align={['flex-start', 'center']}
                     justifyContent="space-between"
-                    mb={8}
                     width="full"
                     mt={1}
                     direction={['column', 'row']}
