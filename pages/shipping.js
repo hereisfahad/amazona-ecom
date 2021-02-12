@@ -43,15 +43,17 @@ const Shipping = () => {
                 as="form"
                 backgroundColor="white"
                 borderRadius={[0, 8]}
+                border="1px solid"
+                borderColor="gray.100"
                 errors={errors}
-                minWidth={["auto", "400px", "600px"]}
+                minWidth={["auto", "400px", "450px"]}
+                mx="auto"
                 size="lg"
                 onSubmit={handleSubmit((data) => onSaveShipingAddress(data))}
                 px={8}
                 py={12}
                 shadow={['md', 'lg']}
                 spacing={4}
-                w="100%"
             >
                 <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">
                     Shipping Address

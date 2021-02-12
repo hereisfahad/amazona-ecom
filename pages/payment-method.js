@@ -47,14 +47,15 @@ const Payment = () => {
                 as="form"
                 backgroundColor="white"
                 borderRadius={[0, 8]}
-                minWidth={["auto", "400px", "600px"]}
+                border="1px solid"
+                borderColor="gray.100"
+                minWidth={["auto", "400px", "450px"]}
                 size="lg"
                 onSubmit={handleSubmit((data) => onSavePaymentMethod(data))}
-                px={8}
-                py={12}
+                p={8}
+                mx="auto"
                 shadow={['md', 'lg']}
                 spacing={4}
-                w="100%"
             >
                 <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">
                     Payment Method

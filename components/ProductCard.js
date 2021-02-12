@@ -23,7 +23,7 @@ const ImageWithSkeleton = ({ image }) => {
 const ProductCard = ({ product }) => {
     const { name, image, rating, numReviews, price } = product
     return (
-        <Box borderWidth="1px" borderColor="gray.200" rounded="md" bg="gray.50">
+        <Box borderWidth="1px" borderColor="gray.200" rounded="md" bg="gray.50" _hover={{ shadow: "lg" }} transition="all .3s ease" >
             <ImageWithSkeleton image={image} />
             <Box display="flex" flexDirection="column" p={4}>
                 <Text as="h2" fontSize="lg" mb={3}>{name}</Text>

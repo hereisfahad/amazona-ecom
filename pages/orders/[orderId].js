@@ -46,7 +46,7 @@ const OrderDetail = () => {
 
     if (!data?.orders) return (
         <DashboardShell>
-            <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">
+            <Text as="h1" color="secondary" textAlign="center" fontSize="4xl" mb={4}>
                 Order Detail
             </Text>
             <SimpleGrid
@@ -111,7 +111,7 @@ const OrderDetail = () => {
 
     return (
         <DashboardShell>
-            <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">
+            <Text as="h1" color="secondary" textAlign="center" fontSize="4xl" mb={4}>
                 Order Detail
             </Text>
             <SimpleGrid

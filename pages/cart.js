@@ -38,7 +38,7 @@ const Cart = () => {
 
     return (
         <DashboardShell>
-            <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">
+            <Text as="h1" color="secondary" textAlign="center" fontSize="4xl" mb={4}>
                 Shopping Cart
             </Text>
             {
