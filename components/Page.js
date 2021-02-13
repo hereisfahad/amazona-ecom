@@ -14,7 +14,12 @@ const Page = ({ name, path, ogTitle, ogDescription, ogImage, children }) => {
         title: ogTitle,
         description: ogDescription,
         images: [
-          { url: ogImage },
+          { 
+            url: ogImage,
+            width: 400,
+            height: 400,
+            alt: 'Og Image Alt',
+          },
         ],
         site_name: 'Amazona Ecom',
       }}
