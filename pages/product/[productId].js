@@ -117,10 +117,30 @@ const Product = () => {
     )
 }
 
-const ProductPage = () => (
-    <Page name="Product" path="/product">
-        <Product />
-    </Page>
-);
+const ProductPage = ({ product }) => {
+    const { _id, name, description, image } = product
+    return (
+        <Page 
+            name="Product"
+            path={`/product/${_id}`}
+            ogTitle={name}
+            ogDescription={description}
+            ogImage={image}
+        >
+            <Product />
+        </Page>
+    );
+}
 
 export default ProductPage
+
+export const getServerSideProps = async ({ query }) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/products?_id=${query.productId}`)
+    const data =  await response.json()
+
+    return {
+      props: {
+        product: data.products[0],
+      },
+    };
+};
