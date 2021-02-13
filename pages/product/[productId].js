@@ -41,35 +41,21 @@ const Product = () => {
         router.push('/cart')
     }
 
-    const shareProduct = () => {
+    const shareProduct = async () => {
         const productURL = window.location.href;
         const mobileRegExp = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
         const isMobile = mobileRegExp.test(navigator.userAgent);
 
         if (isMobile && navigator.share) {
-            navigator
-                .share({url: productURL,})
-                .then(() => {
-                    toast({
-                        description: "Copied to clipboard",
-                        status: "success",
-                        duration: 2000,
-                        isClosable: false,
-                    })
-                })
-                .catch((e) => console.log(e));
+            await navigator.share({ url: productURL })
         } else {
-            navigator.clipboard
-                .writeText(productURL)
-                .then(() => {
-                    toast({
-                        description: "Copied to clipboard",
-                        status: "success",
-                        duration: 2000,
-                        isClosable: false,
-                    })
-                })
-                .catch((e) => console.log(e));
+            await navigator.clipboard.writeText(productURL)
+            toast({
+                description: "Copied to clipboard",
+                status: "success",
+                duration: 2000,
+                isClosable: false,
+            })
         }
     };
 
