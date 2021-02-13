@@ -46,9 +46,9 @@ const Product = () => {
         const mobileRegExp = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
         const isMobile = mobileRegExp.test(navigator.userAgent);
 
-        if (isMobile) {
+        if (isMobile && navigator.share) {
             navigator
-                .share(productURL)
+                .share({url: productURL,})
                 .then(() => {
                     toast({
                         description: "Copied to clipboard",
