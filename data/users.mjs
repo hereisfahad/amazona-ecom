@@ -17,7 +17,7 @@ const users = [
     image: 'https://bit.ly/sage-adebayo',
   },
 ];
-for (let i = 0; i < 1000; i++) {
+for (let i = 0; i < 100; i++) {
   users.push(
     {
       name: faker.name.findName(),
