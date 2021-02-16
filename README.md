@@ -7,12 +7,12 @@ npm run dev
 # or
 yarn dev
 ```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Inspiration
 
 Inspiration from https://github.com/basir/amazona.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Deployed on Vercel
 
