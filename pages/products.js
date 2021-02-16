@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { SimpleGrid, Link } from "@chakra-ui/react";
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
@@ -7,9 +8,14 @@ import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
 import ProductCardSkeleton from '@/skeletons/ProductCardSkeleton';
 import ProductCard from '@/components/ProductCard';
+import Pagination from '@/components/Pagination';
 
 const Products = () => {
-    const { data } = useSWR(`/api/products`, fetcher);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [productsPerPage] = useState(6);
+    const { data } = useSWR(`/api/products?limit=${productsPerPage}&currentPage=${currentPage}`, fetcher);
+
+    const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
         <DashboardShell>
@@ -24,19 +30,26 @@ const Products = () => {
                             <ProductCardSkeleton />
                             <ProductCardSkeleton />
                         </>
-                    ): (
-                        data?.products.map(product => {
-                            return (
-                                <NextLink key={product._id} href={`/product/${product._id}`} passHref>
-                                    <Link>
-                                        <ProductCard product={product} _hover={{ cursor: 'pointer'}}/>
-                                    </Link>
-                                </NextLink>
-                            )
-                        })
-                    )
+                    ) : (
+                            data?.products.map(product => {
+                                return (
+                                    <NextLink key={product._id} href={`/product/${product._id}`} passHref>
+                                        <Link>
+                                            <ProductCard product={product} _hover={{ cursor: 'pointer' }} />
+                                        </Link>
+                                    </NextLink>
+                                )
+                            })
+                        )
+
                 }
             </SimpleGrid>
+            <Pagination
+                currentPage={currentPage}
+                rowsPerPage={productsPerPage}
+                totalRows={data?.totalCount}
+                paginate={paginate}
+            />
         </DashboardShell>
     )
 }
