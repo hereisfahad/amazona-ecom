@@ -29,11 +29,7 @@ const Home = () => {
                         </Stack>
                     </AdminDashboard>
                 ): (
-                    <DashboardShell>
-                        <Text as="h1" color="secondary" textAlign="center" fontSize="4xl">
-                            Welcome to Amazona Ecom
-                        </Text>
-                    </DashboardShell>
+                    <DashboardShell marginBottom="0px" />
                 )
             }
         </>
