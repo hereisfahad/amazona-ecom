@@ -37,7 +37,7 @@ const Home = () => {
                     </AdminDashboard>
                 ) : (
                         <DashboardShell>
-                            <Heading mt="-2rem" mb={2} size="md">Top Sellers</Heading>
+                            <Heading mt={{base: "0", sm: "-2rem"}} mb={2} size="md">Top Sellers</Heading>
                             <TopSellerSlider />
                             <Heading mt={10} mb={2} size="md">Featured Products</Heading>
                             <SimpleGrid
