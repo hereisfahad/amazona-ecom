@@ -44,12 +44,16 @@ const Products = () => {
 
                 }
             </SimpleGrid>
-            <Pagination
-                currentPage={currentPage}
-                rowsPerPage={productsPerPage}
-                totalRows={data?.totalCount}
-                paginate={paginate}
-            />
+            {
+                data?.products?.length > 0 && (
+                    <Pagination
+                        currentPage={currentPage}
+                        rowsPerPage={productsPerPage}
+                        totalRows={data?.totalCount}
+                        paginate={paginate}
+                    />
+                )
+            }
         </DashboardShell>
     )
 }
