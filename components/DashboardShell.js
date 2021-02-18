@@ -18,9 +18,8 @@ import { GoChevronDown } from 'react-icons/go';
 
 import { useCart } from '@/providers/cart';
 import Footer from './Footer';
-import TopSellerSlider from '@/components/TopSellerSlider';
 
-const DashboardShell = ({ marginBottom, children }) => {
+const DashboardShell = ({ children }) => {
     const { cartItems, setCartItems } = useCart()
     const router = useRouter();
     let user = undefined
@@ -41,7 +40,7 @@ const DashboardShell = ({ marginBottom, children }) => {
         <Box>
             <Flex
                 backgroundColor="gray.100"
-                mb={marginBottom? marginBottom: [8, 16]}
+                mb={[8, 16]}
                 w="full"
             >
                 <Flex
@@ -130,9 +129,6 @@ const DashboardShell = ({ marginBottom, children }) => {
                     </Flex>
                 </Flex>
             </Flex>
-            {
-                router.pathname === "/" && (!user || !user.isAdmin) &&  <TopSellerSlider />
-            }
             <Flex pos="relative" minHeight="80vh">
                 <Flex margin="0 auto" mb={16} direction="column" width="100%" maxW="1250px" px={[4, 8, 8]}>
                     {children}
