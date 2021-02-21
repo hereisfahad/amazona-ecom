@@ -1,4 +1,4 @@
-import { Heading, Stack, Link, SimpleGrid } from "@chakra-ui/react";
+import { Heading, Stack, Link, Flex, SimpleGrid } from "@chakra-ui/react";
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
 import NextLink from 'next/link';
@@ -39,7 +39,14 @@ const Home = () => {
                         <DashboardShell>
                             <Heading mt={{base: "0", sm: "-2rem"}} mb={2} size="md">Top Sellers</Heading>
                             <TopSellerSlider />
-                            <Heading mt={10} mb={2} size="md">Featured Products</Heading>
+                            <Flex direction="row" justifyContent="space-between" alignItems="baseline">
+                                <Heading mt={10} mb={2} size="md">Featured Products</Heading>
+                                <NextLink href='/products' passHref>
+                                    <Link>
+                                        View All Products
+                                    </Link>
+                                </NextLink>
+                            </Flex>
                             <SimpleGrid
                                 columns={[1, 2, 3]}
                                 spacing={10} mt={2}
@@ -55,7 +62,7 @@ const Home = () => {
                                             data?.products.map(product => {
                                                 return (
                                                     <NextLink key={product._id} href={`/product/${product._id}`} passHref>
-                                                        <Link>
+                                                        <Link _hover={{ textDecoration: 'none' }} >
                                                             <ProductCard product={product} _hover={{ cursor: 'pointer' }} />
                                                         </Link>
                                                     </NextLink>

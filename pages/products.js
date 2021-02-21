@@ -34,7 +34,7 @@ const Products = () => {
                             data?.products.map(product => {
                                 return (
                                     <NextLink key={product._id} href={`/product/${product._id}`} passHref>
-                                        <Link>
+                                        <Link _hover={{ textDecoration: 'none' }} >
                                             <ProductCard product={product} _hover={{ cursor: 'pointer' }} />
                                         </Link>
                                     </NextLink>
