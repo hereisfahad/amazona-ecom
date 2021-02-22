@@ -17,23 +17,18 @@ import { RiAmazonLine } from 'react-icons/ri';
 import { GoChevronDown } from 'react-icons/go';
 
 import { useCart } from '@/providers/cart';
+import { useAuth } from '@/providers/auth';
 import Footer from './Footer';
+import AuthModal from './AuthModal';
 
 const DashboardShell = ({ children }) => {
     const { cartItems, setCartItems } = useCart()
+    const { user, loading, signin, signout } = useAuth()
     const router = useRouter();
-    let user = undefined
-    if (process.browser) {
-        user = localStorage.getItem('user');
-        user = JSON.parse(user)
-    }
+
     const signOut = () => {
         setCartItems([])
-        localStorage.removeItem('user')
-        localStorage.removeItem('cartItems')
-        localStorage.removeItem('shippingAddress')
-        localStorage.removeItem('paymentMethod')
-        router.push('/signin')
+        signout()
     }
 
     return (
@@ -117,13 +112,7 @@ const DashboardShell = ({ children }) => {
                                 </>
                             ) :
                                 (
-                                    <NextLink href="/signin" passHref>
-                                        <Link
-                                            fontWeight={router.pathname === "/signin" ? 'semibold' : 'normal'}
-                                        >
-                                            Sign In
-                                        </Link>
-                                    </NextLink>
+                                    <AuthModal bottonText="Sign In" />
                                 )
                         }
                     </Flex>

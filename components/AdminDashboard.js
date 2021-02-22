@@ -14,17 +14,12 @@ import {
 import { RiAmazonLine } from 'react-icons/ri';
 import { GoChevronDown } from 'react-icons/go';
 
+import { useAuth } from '@/providers/auth';
+import AuthModal from './AuthModal';
+
 const AdminDashboard = ({ children }) => {
     const router = useRouter();
-    let user = undefined
-    if (process.browser) {
-        user = localStorage.getItem('user');
-        user = JSON.parse(user)
-    }
-    const signOut = () => {
-        localStorage.removeItem('user')
-        router.push('/signin')
-    }
+    const { user, signout } = useAuth()
 
     return (
         <Box>
@@ -66,19 +61,13 @@ const AdminDashboard = ({ children }) => {
                                             <Avatar size="sm" name={user.name} src={user.image} />
                                         </MenuButton>
                                         <MenuList>
-                                            <MenuItem onClick={() => signOut()}>Sign Out</MenuItem>
+                                            <MenuItem onClick={signout}>Sign Out</MenuItem>
                                         </MenuList>
                                     </Menu>
                                 </>
                             ) :
                                 (
-                                    <NextLink href="/signin" passHref>
-                                        <Link
-                                            fontWeight={router.pathname === "/signin" ? 'semibold' : 'normal'}
-                                        >
-                                            Sign In
-                                        </Link>
-                                    </NextLink>
+                                    <AuthModal bottonText="Sign In" />
                                 )
                         }
                     </Flex>

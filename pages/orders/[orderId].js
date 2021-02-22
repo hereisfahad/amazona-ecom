@@ -22,24 +22,15 @@ import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
 import { Table, Tr, Th, Td } from '@/components/Table';
 import OrderDetailSkeleton from '@/skeletons/OrderDetailSkeleton';
+import { useAuth } from '@/providers/auth';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const OrderDetail = () => {
+    const { user } = useAuth()
     const router = useRouter()
     const toast = useToast()
     const [loading, setLoading] = useState(false);
-
-    let user = undefined
-    if (process.browser) {
-        user = JSON.parse(localStorage.getItem('user'));
-        jwt.verify(user?.token, process.env.NEXT_PUBLIC_JWT_SECRET, (err, _) => {
-            if (err) {
-                localStorage.removeItem('user')
-                router.push('/signin?redirect=placeorder')
-            }
-        })
-    }
 
     const { orderId } = router.query
     const { data } = useSWR(`/api/orders?_id=${orderId}`, fetcher);
