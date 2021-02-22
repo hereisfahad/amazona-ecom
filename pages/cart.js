@@ -70,7 +70,7 @@ const Cart = () => {
                             >
                                 <List mb={2}>
                                     <ListItem display="flex" fontWeight="bold" justifyContent="space-between" mb={1}>
-                                        <Text>SubTotal ( items): </Text> <Text fontSize="lg">${cartTotal}</Text>
+                                        <Text>SubTotal (items): </Text> <Text fontSize="lg">${cartTotal}</Text>
                                     </ListItem>
                                 </List>
                                 <Button
