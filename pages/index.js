@@ -2,7 +2,6 @@ import { Heading, Stack, Link, Flex, SimpleGrid } from "@chakra-ui/react";
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
 import NextLink from 'next/link';
-import jwt from 'jsonwebtoken'
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
@@ -12,17 +11,10 @@ import MonthlyOrders from '@/components/charts/MonthlyOrders';
 import TopSellerSlider from '@/components/TopSellerSlider';
 import ProductCardSkeleton from '@/skeletons/ProductCardSkeleton';
 import ProductCard from '@/components/ProductCard';
+import { useAuth } from '@/providers/auth';
 
 const Home = () => {
-    let user = undefined
-    if (process.browser) {
-        user = JSON.parse(localStorage.getItem('user'));
-        jwt.verify(user?.token, process.env.NEXT_PUBLIC_JWT_SECRET, (err, _) => {
-            if (err) {
-                localStorage.removeItem('user')
-            }
-        })
-    }
+    const { user } = useAuth()
     const { data } = useSWR(`/api/products?limit=3&currentPage=1`, fetcher);
 
     return (

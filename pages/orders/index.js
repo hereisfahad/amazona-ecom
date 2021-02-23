@@ -5,30 +5,18 @@ import {
 } from "@chakra-ui/react";
 import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
-import { useRouter } from 'next/router'
 import NextLink from 'next/link';
-import jwt from 'jsonwebtoken'
 
 import Page from '@/components/Page';
 import DashboardShell from '@/components/DashboardShell';
 import OrdersTable from '@/components/OrdersTable';
 import OrdersTableSkeleton from '@/skeletons/OrdersTableSkeleton';
+import { useAuth } from '@/providers/auth';
 
 const Orders = () => {
-    let orders = false
-    const router = useRouter()
-
-    if (process.browser) {
-        let user = JSON.parse(localStorage.getItem('user'));
-        jwt.verify(user?.token, process.env.NEXT_PUBLIC_JWT_SECRET, (err, _) => {
-            if (err) {
-                localStorage.removeItem('user')
-                router.push('/signin?redirect=orders')
-            }
-            const { data } = useSWR(`/api/orders?createdBy=${user?._id}`, fetcher);
-            orders = data?.orders
-        })
-    }
+    const { user } = useAuth()
+    const { data } = useSWR(`/api/orders?createdBy=${user?._id}`, fetcher);
+    const orders = data?.orders
 
     return (
         <DashboardShell>

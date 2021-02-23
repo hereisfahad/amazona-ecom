@@ -6,6 +6,7 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 import CartProvider from '@/providers/cart'
 import OrderProvider from '@/providers/order'
+import AuthProvider from '@/providers/auth'
 
 NProgress.configure({ showSpinner: false });
 
@@ -16,11 +17,13 @@ Router.events.on('routeChangeError', () => NProgress.done())
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider resetCSS>
-      <CartProvider>
-        <OrderProvider>
-          <Component {...pageProps} />
-        </OrderProvider>
-      </CartProvider>
+      <AuthProvider>
+        <CartProvider>
+          <OrderProvider>
+            <Component {...pageProps} />
+          </OrderProvider>
+        </CartProvider>
+      </AuthProvider>
     </ChakraProvider>
   )
 }
